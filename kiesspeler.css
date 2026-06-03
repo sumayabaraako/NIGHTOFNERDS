@@ -1,0 +1,211 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,
+body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
+
+body{
+    font-family:Impact, Arial Black, Arial, sans-serif;
+    background:url("achtergrond/achtergrondspel.png") center center/cover no-repeat;
+}
+
+.screen{
+    width:100%;
+    height:100vh;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    position:relative;
+
+    --selected-bg:transparent;
+    --btn-light:#ffffff;
+    --btn-mid:#dff6ff;
+    --btn-dark:#9bd6ee;
+    --btn-glow:#9bd6ee;
+}
+
+.screen::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:var(--selected-bg);
+    opacity:.35;
+    pointer-events:none;
+    transition:.3s;
+}
+
+h1{
+    position:relative;
+    z-index:2;
+
+    color:white;
+    font-size:clamp(60px,7vw,100px);
+    font-weight:900;
+
+    text-transform:uppercase;
+
+    margin-bottom:40px;
+
+    text-shadow:
+        0 5px 15px rgba(0,0,0,.45);
+}
+
+.players{
+    position:relative;
+    z-index:2;
+
+    display:flex;
+    gap:35px;
+
+    margin-bottom:40px;
+}
+
+.player-card{
+    width:210px;
+    height:350px;
+
+    border-radius:32px;
+
+    position:relative;
+    overflow:hidden;
+
+    cursor:pointer;
+
+    transition:.25s ease;
+}
+
+.player-card:hover{
+    transform:translateY(-8px);
+}
+
+.player-card.selected{
+    transform:translateY(-10px) scale(1.05);
+}
+
+/* KLEUREN */
+
+.player-1{
+    border:2px solid #A8D8F0;
+    background:rgba(168,216,240,.20);
+}
+
+.player-2{
+    border:2px solid #BFEEDB;
+    background:rgba(191,238,219,.20);
+}
+
+.player-3{
+    border:2px solid #FFC9A9;
+    background:rgba(255,201,169,.20);
+}
+
+.player-4{
+    border:2px solid #FFB3AB;
+    background:rgba(255,179,171,.20);
+}
+
+/* GLAS EFFECT */
+
+.player-card::before{
+    content:"";
+    position:absolute;
+    inset:0;
+
+    border-radius:32px;
+
+    background:
+        radial-gradient(circle at 20% 15%, rgba(255,255,255,.7), transparent 15%),
+        linear-gradient(to bottom,
+        rgba(255,255,255,.20),
+        rgba(255,255,255,.05));
+
+    backdrop-filter:blur(8px);
+}
+
+.character{
+    position:absolute;
+    left:50%;
+    bottom:0;
+
+    transform:translateX(-50%);
+
+    z-index:5;
+    object-fit:contain;
+}
+
+.leeuw{
+    width:270%;
+    height:92%;
+}
+
+.draak{
+    width:170%;
+    height:95%;
+}
+
+.vos{
+    width:150%;
+    height:95%;
+}
+
+.kat{
+    width:185%;
+    height:92%;
+}
+
+/* KNOP */
+
+.start-btn{
+    width:420px;
+    height:95px;
+
+    border:none;
+    border-radius:28px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            var(--btn-light),
+            var(--btn-mid),
+            var(--btn-dark)
+        );
+
+    color:#315f78;
+
+    font-size:52px;
+    font-weight:900;
+
+    text-transform:uppercase;
+
+    cursor:pointer;
+
+    opacity:0;
+    visibility:hidden;
+
+    transform:translateY(20px);
+
+    transition:.25s;
+
+    box-shadow:
+        0 0 35px var(--btn-glow);
+}
+
+.start-btn.show{
+    opacity:1;
+    visibility:visible;
+    transform:translateY(0);
+}
+
+.start-btn:hover{
+    transform:scale(1.04);
+}

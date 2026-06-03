@@ -1,0 +1,243 @@
+
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KICKit | Spel</title>
+<link rel="stylesheet" href="testgoal.css">
+</head>
+
+<body>
+
+<div class="stadium-bg"></div>
+
+<main class="screen">
+
+<section class="game-screen">
+
+<div class="game-arena" id="gameArena">
+
+<div class="lives" id="livesDisplay">
+⚽ ⚽ ⚽
+</div>
+
+<div class="goal-frame">
+<div class="target-zone" id="targetZone"></div>
+</div>
+
+<div class="ball" id="ball">⚽</div>
+
+<div class="result-overlay" id="resultOverlay">
+<h1 id="resultTitle">GOAL!</h1>
+<p id="resultText">Wat goed gedaan!</p>
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+<audio id="cheerAudio" src="geluid/vishiv-crowd-cheering-in-stadium-435357.mp3"></audio>
+
+<script>
+
+function $(selector){
+  return document.querySelector(selector);
+}
+
+function initGameScreen(){
+
+  const arena = $("#gameArena");
+  const ball = $("#ball");
+  const target = $("#targetZone");
+  const overlay = $("#resultOverlay");
+  const resultTitle = $("#resultTitle");
+  const resultText = $("#resultText");
+  const cheerAudio = $("#cheerAudio");
+  const livesDisplay = $("#livesDisplay");
+
+  let lives = 3;
+
+  if(!arena || !ball || !target || !overlay){
+    return;
+  }
+
+  function updateLivesUI(){
+    livesDisplay.textContent = "⚽ ".repeat(lives).trim();
+  }
+
+  function resetBall(){
+    ball.style.left = "50%";
+    ball.style.bottom = "5%";
+    ball.style.top = "auto";
+    ball.style.transform = "translateX(-50%)";
+  }
+
+  function goToStartScreen(){
+    window.location.href = "startscherm.html";
+  }
+
+  function newTarget(){
+
+    const goalFrame = document.querySelector(".goal-frame");
+
+    if(!goalFrame){
+      return;
+    }
+
+    const padding = 20;
+
+    const availableWidth =
+      goalFrame.clientWidth -
+      target.offsetWidth -
+      padding * 2;
+
+    const availableHeight =
+      goalFrame.clientHeight -
+      target.offsetHeight -
+      padding * 2;
+
+    const randomX =
+      Math.random() *
+      Math.max(availableWidth, 0);
+
+    const randomY =
+      Math.random() *
+      Math.max(availableHeight, 0);
+
+    target.style.left =
+      `${padding + randomX}px`;
+
+    target.style.top =
+      `${padding + randomY}px`;
+  }
+
+  updateLivesUI();
+  resetBall();
+  newTarget();
+
+  target.addEventListener("click", function(e){
+
+    e.stopPropagation();
+
+    if(overlay.classList.contains("show")){
+      return;
+    }
+
+    const rect = arena.getBoundingClientRect();
+    const targetRect = target.getBoundingClientRect();
+
+    const x =
+      targetRect.left -
+      rect.left +
+      targetRect.width / 2;
+
+    const y =
+      targetRect.top -
+      rect.top +
+      targetRect.height / 2;
+
+    ball.style.left = `${x - 45}px`;
+    ball.style.top = `${y - 45}px`;
+    ball.style.bottom = "auto";
+    ball.style.transform = "scale(0.35)";
+
+    setTimeout(function(){
+
+      resultTitle.textContent = "GOAL!";
+      resultText.textContent = "Wat goed gedaan!";
+
+      overlay.classList.add("show");
+
+      cheerAudio.currentTime = 0;
+
+      cheerAudio.play().catch(function(){});
+
+      setTimeout(function(){
+
+        goToStartScreen();
+
+      },3000);
+
+    },400);
+
+  });
+
+  arena.addEventListener("click", function(e){
+
+    if(overlay.classList.contains("show")){
+      return;
+    }
+
+    const rect = arena.getBoundingClientRect();
+
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    ball.style.left = `${x - 45}px`;
+    ball.style.top = `${y - 45}px`;
+    ball.style.bottom = "auto";
+    ball.style.transform = "scale(0.35)";
+
+    lives--;
+
+    setTimeout(function(){
+
+      if(lives > 0){
+
+        resultTitle.textContent = "BIJNA!";
+        resultText.textContent =
+          `Nog ${lives} kans(en)!`;
+
+        overlay.classList.add("show");
+
+        updateLivesUI();
+
+        setTimeout(function(){
+
+          overlay.classList.remove("show");
+
+          resetBall();
+
+          newTarget();
+
+        },1000);
+
+      } else {
+
+        resultTitle.textContent = "JAMMER!";
+        resultText.textContent =
+          "Geen kansen meer!";
+
+        overlay.classList.add("show");
+
+        setTimeout(function(){
+
+          goToStartScreen();
+
+        },2500);
+
+      }
+
+    },300);
+
+  });
+
+  window.addEventListener(
+    "resize",
+    newTarget
+  );
+}
+
+document.addEventListener(
+  "DOMContentLoaded",
+  initGameScreen
+);
+
+</script>
+
+</body>
+</html>
+

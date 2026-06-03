@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Penalty</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: black;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    .game {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .bg {
+      width: 120%;
+      height: 120%;
+      object-fit: contain;
+      display: block;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+    }
+
+    .goal-area {
+      position: absolute;
+      left: 20%;
+      top: 30%;
+      width: 60%;
+      height: 30%;
+    }
+
+    .target {
+      position: absolute;
+      width: 260px;
+      height: 140px;
+      cursor: pointer;
+      border: 5px solid rgba(255, 60, 60, 0.65);
+      border-radius: 10px;
+      background: rgba(255, 0, 0, 0.08);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow:
+        0 0 12px rgba(255, 0, 0, 0.22),
+        0 10px 20px rgba(0, 0, 0, 0.18);
+      overflow: hidden;
+    }
+
+    .target::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.18) 0%,
+        rgba(255, 255, 255, 0.05) 30%,
+        rgba(255, 255, 255, 0) 60%,
+        rgba(0, 0, 0, 0.05) 100%
+      );
+      pointer-events: none;
+    }
+
+    .target::after {
+      content: "";
+      position: absolute;
+      left: 10%;
+      top: 10%;
+      width: 40%;
+      height: 20%;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.14);
+      filter: blur(4px);
+      pointer-events: none;
+    }
+
+    .message {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      font-size: 100px;
+      font-weight: bold;
+      color: white;
+      text-shadow: 0 0 20px black;
+      transition: transform 0.3s ease;
+      pointer-events: none;
+      z-index: 20;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .message.show {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    @media (max-width: 900px) {
+      .target {
+        width: 200px;
+        height: 110px;
+      }
+
+      .message {
+        font-size: 72px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .target {
+        width: 150px;
+        height: 85px;
+        border-width: 4px;
+      }
+
+      .message {
+        font-size: 48px;
+      }
+
+      .goal-area {
+        left: 20%;
+        top: 31%;
+        width: 60%;
+        height: 28%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="game" id="game">
+    <img src="achtergrond/ea14b2e0-7e59-4d4e-bcf9-7617a77a0377.png" class="bg" alt="Stadion" />
+
+    <div class="overlay">
+      <div class="goal-area" id="goalArea">
+        <div class="target" id="target"></div>
+      </div>
+
+      <div class="message" id="message"></div>
+
+      <audio id="cheerSound" src="vishiv-crowd-cheering-in-stadium-435357.mp3" preload="auto"></audio>
+    </div>
+  </div>
+
+  <script>
+    const game = document.getElementById("game");
+    const target = document.getElementById("target");
+    const goalArea = document.getElementById("goalArea");
+    const message = document.getElementById("message");
+    const cheerSound = document.getElementById("cheerSound");
+
+    function newTarget() {
+      const w = goalArea.clientWidth - target.offsetWidth;
+      const h = goalArea.clientHeight - target.offsetHeight;
+
+      target.style.left = Math.random() * Math.max(w, 0) + "px";
+      target.style.top = Math.random() * Math.max(h, 0) + "px";
+    }
+
+    function showMessage(text) {
+      message.textContent = text;
+      message.classList.add("show");
+    }
+
+    function hideMessage() {
+      message.classList.remove("show");
+    }
+
+    target.addEventListener("click", (e) => {
+      e.stopPropagation();
+
+      showMessage("GOAL!");
+
+      cheerSound.currentTime = 0;
+      cheerSound.play().catch(() => {});
+
+      setTimeout(() => {
+        cheerSound.pause();
+        cheerSound.currentTime = 0;
+        window.location.href = "next.html";
+      }, 10000);
+    });
+
+    game.addEventListener("click", () => {
+      showMessage("MISSED");
+
+      setTimeout(() => {
+        hideMessage();
+        newTarget();
+      }, 800);
+    });
+
+    window.addEventListener("load", newTarget);
+    window.addEventListener("resize", newTarget);
+  </script>
+
+</body>
+</html>

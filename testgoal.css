@@ -1,0 +1,170 @@
+
+html,
+body{
+  width:100%;
+  height:100%;
+  margin:0;
+  overflow:hidden;
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+  background:
+    linear-gradient(rgba(6,18,38,0.20), rgba(6,18,38,0.38)),
+    url("achtergrond/achtergrondspel.png") center center / cover no-repeat;
+}
+
+.stadium-bg{
+  position:fixed;
+  inset:0;
+  background:
+    linear-gradient(rgba(6,18,38,0.20), rgba(6,18,38,0.38)),
+    url("achtergrond/achtergrondspel.png") center center / cover no-repeat;
+  z-index:-1;
+}
+
+.screen{
+  width:100vw;
+  height:100vh;
+}
+
+.game-screen{
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.game-arena{
+  position:relative;
+  width:94vw;
+  height:82vh;
+  overflow:hidden;
+  border-radius:34px;
+  border:2px solid rgba(255,255,255,.2);
+
+  background:
+    linear-gradient(
+      rgba(4,20,38,.18),
+      rgba(4,20,38,.36)
+    ),
+    url("achtergrond/achtergrondspel.png")
+    center center / cover no-repeat;
+}
+
+.goal-frame{
+  position:absolute;
+  top:9%;
+  left:50%;
+  transform:translateX(-50%);
+
+  width:50%;
+  height:42%;
+
+  border:8px solid white;
+  border-radius:12px;
+
+  background:
+  repeating-linear-gradient(
+    0deg,
+    rgba(255,255,255,.25) 0 2px,
+    transparent 2px 36px
+  ),
+  repeating-linear-gradient(
+    90deg,
+    rgba(255,255,255,.25) 0 2px,
+    transparent 2px 36px
+  );
+}
+
+.target-zone{
+  position:absolute;
+  width:260px;
+  height:140px;
+
+  background:rgba(255,52,52,.55);
+
+  border:5px solid white;
+  border-radius:10px;
+
+  box-shadow:
+  0 0 0 8px rgba(255,70,70,.18);
+}
+
+.ball{
+  position:absolute;
+
+  left:50%;
+  bottom:5%;
+
+  transform:translateX(-50%);
+
+  width:90px;
+  height:90px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:54px;
+
+  border-radius:50%;
+
+  background:
+  radial-gradient(
+    circle at 35% 35%,
+    #fff,
+    #ececec 60%,
+    #d7d7d7
+  );
+
+  transition:
+    left .65s,
+    top .65s,
+    transform .65s;
+}
+
+.lives{
+  position:absolute;
+  top:20px;
+  right:20px;
+
+  z-index:5;
+
+  font-size:40px;
+  letter-spacing:10px;
+}
+
+.result-overlay{
+  position:absolute;
+  inset:0;
+
+  display:none;
+
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+
+  text-align:center;
+
+  background:rgba(2,14,28,.45);
+
+  z-index:10;
+}
+
+.result-overlay.show{
+  display:flex;
+}
+
+.result-overlay h1{
+  font-size:120px;
+  color:white;
+  margin:0;
+}
+
+.result-overlay p{
+  font-size:32px;
+  color:white;
+}
+

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Kies jouw speler</title>
+
+<link rel="stylesheet" href="kiesspeler.css">
+
+</head>
+
+<body>
+
+<main class="screen" id="screen">
+
+    <h1>KIES JOUW SPELER</h1>
+
+    <section class="players">
+
+        <div class="player-card player-1"
+            data-page="t-shirtleeuw.html"
+            data-color="#A8D8F0"
+            data-light="#FFFFFF"
+            data-mid="#E8F8FF"
+            data-dark="#8FD8FF">
+
+            <img src="mascotes/leeuww.png"
+                class="character leeuw"
+                alt="Leeuw">
+
+        </div>
+
+        <div class="player-card player-2"
+            data-page="t-shirtdraak.html"
+            data-color="#BFEEDB"
+            data-light="#FFFFFF"
+            data-mid="#E4FFF3"
+            data-dark="#A6EFD0">
+
+            <img src="mascotes/draakkk.png"
+                class="character draak"
+                alt="Draak">
+
+        </div>
+
+        <div class="player-card player-3"
+            data-page="t-shirtvos.html"
+            data-color="#FFC9A9"
+            data-light="#FFFFFF"
+            data-mid="#FFE1CC"
+            data-dark="#FFB780">
+
+            <img src="mascotes/vos.png"
+                class="character vos"
+                alt="Vos">
+
+        </div>
+
+        <div class="player-card player-4"
+            data-page="t-shirtkat.html"
+            data-color="#FFB3AB"
+            data-light="#FFFFFF"
+            data-mid="#FFD9D4"
+            data-dark="#FF9F94">
+
+            <img src="mascotes/kat3.png"
+                class="character kat"
+                alt="Kat">
+
+        </div>
+
+    </section>
+
+    <button id="startBtn" class="start-btn">
+        GA VERDER
+    </button>
+
+</main>
+
+<script>
+
+const cards = document.querySelectorAll(".player-card");
+const screen = document.getElementById("screen");
+const button = document.getElementById("startBtn");
+
+let selectedPage = "";
+
+cards.forEach(card => {
+
+    card.addEventListener("click", () => {
+
+        cards.forEach(c => {
+            c.classList.remove("selected");
+        });
+
+        card.classList.add("selected");
+
+        selectedPage = card.dataset.page;
+
+        const color = card.dataset.color;
+
+        screen.style.setProperty(
+            "--selected-bg",
+            `radial-gradient(circle at center, ${color} 0%, transparent 70%)`
+        );
+
+        screen.style.setProperty("--btn-light", card.dataset.light);
+        screen.style.setProperty("--btn-mid", card.dataset.mid);
+        screen.style.setProperty("--btn-dark", card.dataset.dark);
+        screen.style.setProperty("--btn-glow", color);
+
+        button.classList.add("show");
+
+    });
+
+});
+
+button.addEventListener("click", () => {
+
+    if(selectedPage){
+        window.location.href = selectedPage;
+    }
+
+});
+
+</script>
+
+</body>
+</html>

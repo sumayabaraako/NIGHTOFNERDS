@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Kies jouw team</title>
+
+<link rel="stylesheet" href="styletshirtvos.css">
+
+</head>
+
+<body>
+
+<main class="page">
+
+    <section class="shirts">
+
+        <!-- FC KICKIT -->
+
+        <div class="team">
+
+            <h2 class="team-title">
+                FC KICKIT
+            </h2>
+
+            <div
+                class="shirt-card oranje"
+                data-color="#FFC9A9"
+                data-page="vos-fckickitoran.html">
+
+                <img
+                    src="tshirtfotos/vostshirt.png"
+                    class="shirt-img"
+                    alt="FC Kickit">
+
+            </div>
+
+        </div>
+
+        <!-- FC WK -->
+
+        <div class="team">
+
+            <h2 class="team-title">
+                FC WK
+            </h2>
+
+            <div
+                class="shirt-card orange"
+                data-color="#FF8500"
+                data-page="vos-fcwkoranjewk.html">
+
+                <img
+                    src="tshirtfotos/WKkat.png"
+                    class="shirt-img"
+                    alt="FC WK">
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <button class="next-btn" id="nextBtn">
+        GA VERDER
+    </button>
+
+</main>
+
+<script>
+
+const cards = document.querySelectorAll(".shirt-card");
+const button = document.getElementById("nextBtn");
+
+let selectedPage = "";
+
+cards.forEach(card => {
+
+    card.addEventListener("click", () => {
+
+        cards.forEach(c => {
+            c.classList.remove("selected");
+        });
+
+        card.classList.add("selected");
+
+        selectedPage = card.dataset.page;
+
+        const color = card.dataset.color;
+
+        button.classList.add("show");
+
+        button.style.background = color;
+
+        button.style.setProperty(
+            "--btn-color",
+            color
+        );
+
+    });
+
+});
+
+button.addEventListener("click", () => {
+
+    if(selectedPage){
+
+        window.location.href = selectedPage;
+
+    }else{
+
+        alert("Kies eerst een shirt!");
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>

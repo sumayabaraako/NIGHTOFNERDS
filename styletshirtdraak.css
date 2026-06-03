@@ -1,0 +1,222 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
+
+body{
+    font-family:Impact, Arial Black, Arial, sans-serif;
+    background:url("achtergrond/achtergrondspel.png") center center / cover no-repeat;
+}
+
+.page{
+    width:100%;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+
+.shirts{
+    display:flex;
+    justify-content:center;
+    align-items:flex-end;
+    gap:120px;
+}
+
+.team{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.team-title{
+    color:white;
+    font-size:42px;
+    font-weight:900;
+    text-transform:uppercase;
+    margin-bottom:25px;
+    text-shadow:0 4px 10px rgba(0,0,0,.45);
+}
+
+.shirt-card{
+    width:340px;
+    height:430px;
+    border-radius:42px;
+    position:relative;
+    overflow:hidden;
+    cursor:pointer;
+    transition:.25s ease;
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+}
+
+.shirt-card:hover{
+    transform:translateY(-8px) scale(1.03);
+}
+
+/* GLAS EFFECT */
+
+.shirt-card::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:42px;
+
+    background:
+        radial-gradient(circle at 18% 12%, rgba(255,255,255,.9), transparent 12%),
+        radial-gradient(circle at 80% 12%, rgba(255,255,255,.35), transparent 18%),
+        linear-gradient(
+            to bottom,
+            rgba(255,255,255,.22),
+            rgba(255,255,255,.06)
+        );
+
+    z-index:1;
+}
+
+.shirt-card::after{
+    content:"";
+    position:absolute;
+    inset:2px;
+    border-radius:40px;
+
+    box-shadow:
+        inset 0 0 35px rgba(255,255,255,.35),
+        inset 0 -40px 60px rgba(255,255,255,.12);
+
+    z-index:2;
+}
+
+/* GROEN */
+
+.green{
+    border:4px solid #BFEEDB;
+    background:rgba(191,238,219,.15);
+
+    box-shadow:
+        0 0 25px rgba(191,238,219,.45);
+}
+
+.green.selected{
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(191,238,219,.95),
+            rgba(191,238,219,.55)
+        );
+
+    box-shadow:
+        0 0 40px #BFEEDB,
+        0 0 90px rgba(191,238,219,.85);
+}
+
+/* ORANJE */
+
+.orange{
+    border:4px solid #FF8500;
+    background:rgba(255,133,0,.12);
+
+    box-shadow:
+        0 0 25px rgba(255,133,0,.45);
+}
+
+.orange.selected{
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(255,133,0,.95),
+            rgba(255,133,0,.65)
+        );
+
+    box-shadow:
+        0 0 40px #FF8500,
+        0 0 90px rgba(255,133,0,.8);
+}
+
+.shirt-img{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+
+    width:100%;
+    height:95%;
+
+    object-fit:contain;
+
+    z-index:5;
+    pointer-events:none;
+}
+
+/* KNOP */
+
+.next-btn{
+    margin-top:45px;
+
+    width:360px;
+    height:90px;
+
+    border:none;
+    border-radius:24px;
+
+    opacity:0;
+    visibility:hidden;
+
+    transform:translateY(15px);
+
+    color:#315f78;
+
+    font-size:42px;
+    font-weight:900;
+
+    text-transform:uppercase;
+
+    cursor:pointer;
+
+    transition:.25s ease;
+
+    box-shadow:
+        inset 0 5px 10px rgba(255,255,255,.45),
+        0 8px 0 rgba(0,0,0,.25),
+        0 0 40px var(--btn-color);
+}
+
+.next-btn.show{
+    opacity:1;
+    visibility:visible;
+    transform:translateY(0);
+}
+
+.next-btn:hover{
+    transform:scale(1.05);
+}
+
+@media(max-width:1200px){
+
+    .shirts{
+        gap:50px;
+    }
+
+    .shirt-card{
+        width:250px;
+        height:330px;
+    }
+
+    .team-title{
+        font-size:30px;
+    }
+
+    .next-btn{
+        width:280px;
+        height:75px;
+        font-size:32px;
+    }
+}
